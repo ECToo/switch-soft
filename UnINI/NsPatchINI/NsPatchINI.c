@@ -18,14 +18,19 @@ void __declspec(dllexport) Merge(HWND hwndParent, int string_size,
 		char mergeini[1024];
 		char baseini[1024];
 		char resultini[1024];
+		char flagstr[1024];
 		int result = 1;
+		int flags = 0;
 		char errorstr[1024];
 
 		if(	popstring(mergeini) == 0
 		&&	popstring(baseini) == 0
 		&&	popstring(resultini) == 0 )
 		{
-			result = PatchINIMerge(mergeini,baseini,resultini,errorstr,sizeof(errorstr));
+			if( popstring(flagstr) == 0 )
+				flags = atoi(flagstr);
+
+			result = PatchINIMerge(mergeini, baseini, resultini, flags, errorstr, sizeof(errorstr));
 			pushstring(errorstr);
 		}
 		else

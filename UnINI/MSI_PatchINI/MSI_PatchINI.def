@@ -1,0 +1,3 @@
+LIBRARY	"MSI_PatchINI"
+EXPORTS
+    PatchINI_2K4Mod

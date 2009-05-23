@@ -154,11 +154,11 @@ public:
 	};
 
 public:
-	UnINISection()
+	UnINISection() : File(NULL), bSkipSection(false)
 	{
 	}
 
-	UnINISection(const string& text, bool bchangefile=false) : Text(text), bChangeFile(bchangefile)
+	UnINISection(const string& text, UnINIFile* file) : Text(text), File(file), bSkipSection(false)
 	{	
 		if( !Text.empty() )
 			PushLine(UnINIProperty(string_make() << "[" << Text << "]"));
@@ -189,7 +189,8 @@ public:
 private:
 	string Text;
 	UnINIPropertyList LineData;
-	bool bChangeFile;
+	UnINIFile* File;
+	bool bSkipSection;
 };
 
 typedef list<UnINISection*> UnINISectionData;
@@ -201,7 +202,11 @@ typedef list<UnINISection*> UnINISectionData;
 class UnINIFile
 {
 public:
-	UnINIFile( bool changefile=false ) : bChangeFile(changefile)
+	friend class UnINISection;
+
+	UnINIFile( bool changefile=false, bool DefaultOnly=false ) 
+		: bChangeFile(changefile)
+		, bDefaultOnly(DefaultOnly)
 	{
 	}
 
@@ -223,6 +228,7 @@ public:
 private:
 	UnINISectionData Sections;
 	bool bChangeFile;
+	bool bDefaultOnly;
 
 };
 
