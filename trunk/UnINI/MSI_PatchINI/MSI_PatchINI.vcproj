@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="NsPatchINI"
-	ProjectGUID="{575D9737-F49A-4A2F-AFC0-C1A8B8866C1C}"
-	RootNamespace="NsPatchINI"
+	Name="MSI_PatchINI"
+	ProjectGUID="{5FE9FC42-126F-4231-A94B-34E7378FA2A4}"
+	RootNamespace="MSI_PatchINI"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -20,7 +20,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="0"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -40,15 +40,16 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;NSPATCHINI_EXPORTS"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)&quot;;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;MSI_PATCHINI_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
+				DisableSpecificWarnings="4995"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -61,8 +62,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="..\..\..\$(ProjectName).dll"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="&quot;${SolutionDir}PatchINI\$(ConfigurationName)&quot;"
+				ModuleDefinitionFile="MSI_PatchINI.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -90,7 +93,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetPath) $(NSIS)\Plugins"
 			/>
 		</Configuration>
 		<Configuration
@@ -98,7 +100,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="0"
+			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -118,13 +120,15 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;NSPATCHINI_EXPORTS"
+				Optimization="1"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)&quot;;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;MSI_PATCHINI_EXPORTS"
 				RuntimeLibrary="0"
-				UsePrecompiledHeader="0"
+				UsePrecompiledHeader="2"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
+				DisableSpecificWarnings="4995"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -137,8 +141,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="..\..\..\$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;${SolutionDir}PatchINI\$(ConfigurationName)&quot;"
+				ModuleDefinitionFile="MSI_PatchINI.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -168,7 +174,6 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy $(TargetPath) $(NSIS)\Plugins"
 			/>
 		</Configuration>
 	</Configurations>
@@ -181,8 +186,32 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\NsPatchINI.c"
+				RelativePath=".\MSI_PatchINI.cpp"
 				>
+			</File>
+			<File
+				RelativePath=".\MSI_PatchINI.def"
+				>
+			</File>
+			<File
+				RelativePath=".\stdafx.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -191,7 +220,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\NsPatchINI.h"
+				RelativePath=".\MSI_PatchINI.h"
+				>
+			</File>
+			<File
+				RelativePath=".\stdafx.h"
 				>
 			</File>
 		</Filter>
@@ -201,6 +234,10 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
+		<File
+			RelativePath=".\ReadMe.txt"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
