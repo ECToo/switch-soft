@@ -1,4 +1,4 @@
-LIBRARY U3DExport
+LIBRARY Unreal3DExport
 EXPORTS
 	LibDescription			@1
 	LibNumberClasses		@2
