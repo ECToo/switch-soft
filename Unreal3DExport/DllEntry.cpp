@@ -8,11 +8,11 @@
 
 	HISTORY: 
 
- *>	Copyright (c) 2000, All Rights Reserved.
+ *>	Copyright (c) 2003, All Rights Reserved.
  **********************************************************************/
-#include "U3DExport.h"
+#include "Unreal3DExport.h"
 
-extern ClassDesc2* GetU3DExportDesc();
+extern ClassDesc2* GetUnreal3DExportDesc();
 
 HINSTANCE hInstance;
 int controlsInit = FALSE;
@@ -54,7 +54,7 @@ __declspec( dllexport ) int LibNumberClasses()
 __declspec( dllexport ) ClassDesc* LibClassDesc(int i)
 {
 	switch(i) {
-		case 0: return GetU3DExportDesc();
+		case 0: return GetUnreal3DExportDesc();
 		default: return 0;
 	}
 }

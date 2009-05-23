@@ -1,6 +1,6 @@
 /**********************************************************************
  *<
-	FILE: U3DExport.h
+	FILE: Unreal3DExport.h
 
 	DESCRIPTION:	Includes for Plugins
 
@@ -8,17 +8,18 @@
 
 	HISTORY:
 
- *>	Copyright (c) 2000, All Rights Reserved.
+ *>	Copyright (c) 2003, All Rights Reserved.
  **********************************************************************/
 
-#ifndef __U3DEXPORT__H
-#define __U3DEXPORT__H
+#ifndef __Unreal3DExport__H
+#define __Unreal3DExport__H
 
 #include "Max.h"
 #include "resource.h"
 #include "istdplug.h"
 #include "iparamb2.h"
 #include "iparamm2.h"
+//SIMPLE TYPE
 
 
 
@@ -26,4 +27,4 @@ extern TCHAR *GetString(int id);
 
 extern HINSTANCE hInstance;
 
-#endif // __U3DEXPORT__H
+#endif

@@ -79,6 +79,12 @@ typedef int U_INT;
 typedef unsigned char U_BYTE;
 typedef float U_FLOAT;
 
+//#define RoundUV(x) ((x)>=0?(long)((x)+0.1):(long)((x)-0.1))
+static inline U_BYTE ConvertUV( float f )
+{
+    return f*256.0f;
+}
+
 class FVector
 {
 public:
@@ -109,6 +115,24 @@ struct FJSDataHeader
 	U_DWORD	FixScale; 		 //(unused)
 	U_DWORD	Unused1,Unused2,Unused3; //(unused)
 	U_DWORD Unknown1,Unknown2,Unknown3; // ??
+
+    FJSDataHeader()
+    : NumPolys(0)
+    , NumVertices(0)
+    , BogusRot(0)
+    , BogusFrame(0)
+    , BogusNormX(0)
+    , BogusNormY(0)
+    , BogusNormZ(0)
+    , FixScale(0)
+    , Unused1(0)
+    , Unused2(0)
+    , Unused3(0)
+    , Unknown1(0)
+    , Unknown2(0)
+    , Unknown3(0)
+    {
+    }
 };
 
 //
@@ -118,6 +142,12 @@ struct FJSAnivHeader
 {
 	U_WORD	NumFrames;		// Number of animation frames.
 	U_WORD	FrameSize;		// Size of one frame of animation.
+    
+    FJSAnivHeader()
+    : NumFrames(0)
+    , FrameSize(0)
+    {
+    }
 };
 
 // Texture coordinates associated with a vertex and one or more mesh triangles.
@@ -129,15 +159,22 @@ struct FMeshUV
 	U_BYTE V;
 
 	// Constructor.
-	FMeshUV()
+	FMeshUV(): U(0), V(0)
 	{}
 	FMeshUV( const U_BYTE u, const U_BYTE v )
 	: U(u), V(v)
 	{}
 
 	FMeshUV( const Point2& p )
-	: U(p.x*255.0f), V(p.y*255.0f)
+	: U(ConvertUV(p.x)), V(255-ConvertUV(p.y))
 	{}
+
+    static void printf( FILE* f, const Point2& p, const FMeshUV& u )
+    {
+        _ftprintf( f, _T("(U=[%f][%d][%d],V=[%f][%d][%d]) ")
+            , p.x, ConvertUV(p.x), u.U
+            , p.y, 255-ConvertUV(p.y), u.V );
+    }
 
 };
 
@@ -152,41 +189,70 @@ struct FJSMeshTri
 	FMeshUV		Tex[3];			// Texture UV coordinates.
 	U_BYTE		TextureNum;		// Source texture offset.
 	U_BYTE		Flags;			// Unreal mesh flags (currently unused).
+    
+    FJSMeshTri()
+    : Type(0)
+    , Color(0)
+    , TextureNum(0)
+    , Flags(0)
+    {
+        iVertex[0] = 0;
+        iVertex[1] = 0;
+        iVertex[2] = 0;
+    }
 };
 
-//
-// One triangular polygon in a mesh, which references three vertices, and various drawing/texturing information.
-//
-struct FMeshTri
-{
-	U_WORD		iVertex[3];	// Vertex indices.
-	FMeshUV		Tex[3];		// Texture UV coordinates.
-	U_DWORD		PolyFlags;	// Surface flags.
-	U_INT		MaterialIndex;	// Source texture index.
-};
+////
+//// One triangular polygon in a mesh, which references three vertices, and various drawing/texturing information.
+////
+//struct FMeshTri
+//{
+//	U_WORD		iVertex[3];	// Vertex indices.
+//	FMeshUV		Tex[3];		// Texture UV coordinates.
+//	U_DWORD		PolyFlags;	// Surface flags.
+//	U_INT		MaterialIndex;	// Source texture index.
+//};
 
 
 
 //
 // Animated vertices: 32 bits per vertex: packed 11,11,10 bit 3d vector.
 //
+//struct FMeshVert
+//{
+//	// Variables.
+//	U_INT X:11; U_INT Y:11; U_INT Z:10;
+//
+//	// Constructor.
+//	FMeshVert() : X(0), Y(0), Z(0)
+//	{}
+//	FMeshVert( const FVector& In )
+//	: X((U_INT)In.X), Y((U_INT)In.Y), Z((U_INT)In.Z)
+//	{}
+//
+//	// Functions.
+//	FVector Vector() const
+//	{
+//		return FVector( X, Y, Z );
+//	}
+//};
+
 struct FMeshVert
 {
 	// Variables.
-	U_INT X:11; U_INT Y:11; U_INT Z:10;
+	U_INT V;
 
 	// Constructor.
-	FMeshVert()
-	{}
-	FMeshVert( const FVector& In )
-	: X((U_INT)In.X), Y((U_INT)In.Y), Z((U_INT)In.Z)
+	FMeshVert() : V(0)
 	{}
 
-	// Functions.
-	FVector Vector() const
+	FMeshVert( const Point3& p )
+    : V ( ( static_cast<U_INT>( p.x ) & 0x7FF ) |
+        ( ( static_cast<U_INT>( p.y ) & 0x7FF ) << 11 ) |
+        ( ( static_cast<U_INT>( p.z ) & 0x3FF ) << 22 ) )
 	{
-		return FVector( X, Y, Z );
-	}
+    }
 };
+
 
 #pragma pack(pop)
