@@ -1,0 +1,33 @@
+;------------------------------------------------------------
+;
+;	G16 BMP File Format plugin for Photoshop 5.0+
+;	Copyright © 2004 neai.o2.pl
+;
+;------------------------------------------------------------
+;
+;	File: G16.def
+;
+;	Copyright 1991-1997 Adobe Systems Incorporated.
+;	All rights reserved.
+;
+;	Window's def file for Format example plugin module.
+;
+;------------------------------------------------------------
+
+LIBRARY     G16
+
+DESCRIPTION 'G16 Photoshop Plugin Module'
+
+HEAPSIZE    2048
+
+;------------------------------------------------------------
+;	Only need these statements if you're building on an
+;	early version of VC.  Obsolete as of VC 5.0.
+;	Uncomment these two lines for pre-VC 5.0:
+;
+;CODE        PRELOAD MOVEABLE
+;DATA        PRELOAD MOVEABLE SINGLE
+;------------------------------------------------------------
+
+EXPORTS
+			ENTRYPOINT   @1
