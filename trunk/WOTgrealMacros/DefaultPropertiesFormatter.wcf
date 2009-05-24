@@ -1,0 +1,99 @@
+program DefaultPropertiesAligner
+begin
+    // ========================================================================
+    //  UnrealScript DefaultProperties Aligner
+    //
+    //  Copyright 2005 Roman Switch` Dzieciol, neai o2.pl
+    //  http://wiki.beyondunreal.com/wiki/Switch
+    // ========================================================================
+
+    UseTabs := 1;
+    TabSize := 4;
+    PrependTabs := 1;
+    ExtraTabs := 1;
+    
+    // ========================================================================
+    
+    
+    BlockBeginX, BlockBeginY := BlockBegin();
+    BlockEndX, BlockEndY := BlockEnd();
+    AlignPos := 0;
+    
+    // Find align line
+    for line:=BlockBeginY to BlockEndY step 1 do
+    begin
+        SetCursorXY(0,line);
+        sline := CurrentLine();
+        
+        spos := Pos('=',sline);
+        if (spos <> 0) then
+        begin
+            sleft := Copy(sline,0,spos-1);
+            sleft := Trim(sleft);
+            slen := Length(sleft);
+            if( slen > AlignPos ) then
+                AlignPos := slen;
+        end;
+    end;
+    
+    // Align selection
+    if (AlignPos <> 0) then
+    begin
+        AlignPos := AlignPos + PrependTabs*TabSize;
+        
+        for line:=BlockBeginY to BlockEndY step 1 do
+        begin
+            SetCursorXY(0,line);
+            sline := CurrentLine();
+            spos := Pos('=',sline);
+            if (spos <> 0) then
+            begin
+                sleft := Copy(sline,0,spos-1);
+                sleft := Trim(sleft);
+                sright := Copy(sline,spos+1,Length(sline)-spos);
+                sright := Trim(sright);
+                sres := sleft;
+		                
+                if (UseTabs = 1) then
+                begin
+                    for tabpre:=1 to PrependTabs step 1 do
+                    begin
+                        sres :=Chr(9) + sres;
+                    end;     
+                         
+                    tend := Trunc(AlignPos / TabSize)+1+ExtraTabs;
+                    tbeg := Trunc(Length(sleft) / TabSize)+PrependTabs;
+                    tnum := tend-tbeg;
+                    
+                    for tabpost:=1 to tnum step 1 do
+                    begin
+                        sres := sres + Chr(9);
+                    end;
+                    
+                    sres := sres + '=' + ' ' + sright;
+                end;
+                
+                if (UseTabs = 0) then
+                begin
+                    
+                    for numtabs:=1 to PrependTabs*TabSize step 1 do
+                    begin
+                        sres := ' ' + sres;
+                    end;              
+                    
+                    tbeg := PrependTabs*TabSize + Length(sleft) + 1;
+                    tend := (Trunc(AlignPos / TabSize)+1) * TabSize + ExtraTabs*TabSize;
+                    
+                    for numspaces:=tbeg to tend step 1 do
+                    begin
+                        sres := sres + ' ';
+                    end;
+                    
+                    sres := sres + '=' + ' ' + sright;
+                end;
+                
+                SetCurrentLine(sres);
+            end;
+        end;    
+    end;  
+end;

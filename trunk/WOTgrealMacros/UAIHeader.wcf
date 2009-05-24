@@ -1,0 +1,40 @@
+program UAIHeader
+begin
+  DoEditorCommand(ecDeleteLine);
+  DoEditorCommand(ecDeleteLine);
+  DoEditorCommand(ecDeleteLine);
+
+
+  DoEditorCommand(ecAddString, '/* =============================================================================');		DoEditorCommand(ecLineBreak);
+
+  DoEditorCommand(ecAddString, ':: File Name');
+  DoEditorCommand(ecTab);
+  DoEditorCommand(ecAddString, '::');
+  DoEditorCommand(ecTab);
+  DoEditorCommand(ecAddString, ExtractFileName(ActiveFileName()));
+  DoEditorCommand(ecLineBreak);
+
+  DoEditorCommand(ecAddString, ':: Description');
+  DoEditorCommand(ecTab);
+  DoEditorCommand(ecAddString, '::');
+  DoEditorCommand(ecTab);
+  DoEditorCommand(ecAddString, 'none');
+  DoEditorCommand(ecLineBreak);
+
+  DoEditorCommand(ecAddString, ':: =============================================================================');		DoEditorCommand(ecLineBreak);
+  DoEditorCommand(ecAddString, ':: Revision history:');																	DoEditorCommand(ecLineBreak);
+  DoEditorCommand(ecAddString, ':: 00.00.10 - Roman Dzieciol, Created');														DoEditorCommand(ecLineBreak);
+
+  DoEditorCommand(ecAddString, ':: =============================================================================');		DoEditorCommand(ecLineBreak);
+  DoEditorCommand(ecAddString, ':: Copyright © 2003 Roman Dzieciol	                     All Rights Reserved.');																DoEditorCommand(ecLineBreak);
+  DoEditorCommand(ecAddString, '============================================================================= */');		DoEditorCommand(ecLineBreak);
+  DoEditorCommand(ecDown);
+  DoEditorCommand(ecDown);
+  DoEditorCommand(ecLineBreak);
+
+  DoEditorCommand(ecAddString, '/* =============================================================================');		DoEditorCommand(ecLineBreak);
+  DoEditorCommand(ecAddString, ':: Copyright © 2003 Roman Dzieciol	                     All Rights Reserved.');																DoEditorCommand(ecLineBreak);
+  DoEditorCommand(ecAddString, '============================================================================= */');		DoEditorCommand(ecLineBreak);
+end;
+
+
