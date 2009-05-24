@@ -1,0 +1,10 @@
+program FillLine
+begin
+	CaretX, CaretY := CursorXY;
+
+	for c:=CaretX to 79 step 1 do
+	begin
+		DoEditorCommand(ecString, '-');
+	end;
+end;
+
