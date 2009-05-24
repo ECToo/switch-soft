@@ -1,0 +1,37 @@
+;
+; Unreal Tournament 2004 UT4MOD association fixer
+;
+; Copyright 2005, Roman Switch` Dzieciol, neai o2.pl
+; http://wiki.beyondunreal.com/wiki/Switch
+;
+
+[version]
+signature="$CHICAGO$"
+
+[DefaultInstall]
+AddReg=OnAdd
+
+[DefaultUnInstall]
+DelReg=OnRemove
+
+[OnAdd]
+HKLM,%PRD_FOLDER%%PRD_NAME%,Folder,,%01%
+HKCR,%PRD_EXT%,,,%PRD_NAME%%PRD_MOD%
+HKCR,%PRD_NAME%%PRD_MOD%,,,%PRD_FULLNAME%" Module"
+HKCR,%PRD_NAME%%PRD_MOD%\DefaultIcon,,,%01%"\Help\"%PRD_ICO%
+HKCR,%PRD_NAME%%PRD_MOD%\Shell,,,"open"
+HKCR,%PRD_NAME%%PRD_MOD%\Shell\open,,,"&Install this "%PRD_FULLNAME%" module"
+HKCR,%PRD_NAME%%PRD_MOD%\Shell\open\command,,,%01%"\System\Setup.exe install ""%1"""
+
+[OnRemove]
+HKLM,%PRD_FOLDER%%PRD_NAME%
+HKCR,%PRD_EXT%
+HKCR,%PRD_NAME%%PRD_MOD%
+
+[Strings]
+PRD_NAME="UT2004"
+PRD_FULLNAME="Unreal Tournament 2004"
+PRD_FOLDER="SOFTWARE\Unreal Technology\Installed Apps\"
+PRD_EXT=".ut4mod"
+PRD_MOD=".Module"
+PRD_ICO="Unreal.ico"
